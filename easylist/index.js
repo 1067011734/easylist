@@ -1,12 +1,12 @@
-var Profile = Vue.extend({
+let Profile = Vue.extend({
     props:{
         msg:Array
     },
     template:
      `
-    <div v-bind:style={width:width} class="easylist">
-        <input type="search" v-model="target.name" style="width:100%" v-on:input="input">
-        <div class="items-wrap">
+    <div v-bind:style={width:width} class="easylist" >
+        <input type="search" v-model="target.name" style="width:100%" v-on:input="input" v-on:focus="focus" v-on:blur="blur">
+        <div v-bind:class='{"items-wrap":true,"hide":isHide,}' v-on:mouseleave="mouseleave" v-on:mouseenter="mouseenter">
             <p v-for="item in filterDate"  v-on:click='itemSelect(item)'>{{item.name}}</p>
         </div>
      </div>
@@ -24,6 +24,8 @@ var Profile = Vue.extend({
             width: "200px",
             filterDate: [],
             target: { id: "", name: "" },
+            isHide:true,//下拉框是否隐藏
+            isLeave:true,//鼠标是否在下拉框里
         }
     },
     mounted() {
@@ -40,9 +42,25 @@ var Profile = Vue.extend({
             }
             this.filterDate = data;
         },
+        focus(){
+            this.isHide=false;
+        },
+        blur(){
+            if(this.isLeave){
+                this.isHide = true; 
+            }
+            
+        },
+        mouseleave(){
+            this.isLeave=true;
+        },
+        mouseenter(){
+            this.isLeave=false;
+        },
         itemSelect(item) {
             this.target = Object.assign({}, item);
             this.filterDate = this.msg.filter(x => x.name.includes(item.name));
+            this.isHide = true; 
         }
     }
 });
