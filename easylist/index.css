@@ -13,6 +13,7 @@
     overflow: auto;
     position: absolute;
     background: #fff;
+    z-index: 2;
 }
 .easylist .items-wrap p{
     padding: 3px 10px;

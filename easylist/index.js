@@ -28,6 +28,11 @@ let Profile = Vue.extend({
             isLeave:true,//鼠标是否在下拉框里
         }
     },
+    watch:{
+        "msg"(val, old) {
+            this.filterDate = this.msg;
+        }
+    },
     mounted() {
         this.filterDate = this.msg;
     },
@@ -43,6 +48,7 @@ let Profile = Vue.extend({
             this.filterDate = data;
         },
         focus(){
+            this.filterDate = this.msg.filter(x => x.name.includes(this.target.name));
             this.isHide=false;
         },
         blur(){
